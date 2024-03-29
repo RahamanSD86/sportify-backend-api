@@ -24,13 +24,21 @@ public class IplAllMatchesController {
 
     @Autowired
     private IplAllMatchesApiService iplAllMatchesApiService;
-    @PostMapping
+    @PostMapping("/create-all-matches")
     public ResponseEntity<CustomPage<IplAllMatchesApi>> createEntity()throws Exception{
         return new ResponseEntity<>(new CustomPage<>(iplAllMatchesApiService.createEntity(), Constants.BLANK_CONSTANT), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/get-all-matches")
     public ResponseEntity<CustomPage<IplAllMatchesApiDto>> getAllEntity(Pageable pageable)throws Exception{
         return new ResponseEntity<>(new CustomPage<>(iplAllMatchesApiService.getAllEntities(pageable), Constants.BLANK_CONSTANT), HttpStatus.CREATED);
+    }
+    @GetMapping("/getIplMatchByTime")
+    public IplAllMatchesApiDto getEntityByTime()throws Exception{
+        return iplAllMatchesApiService.getMatchByTime("2024-03-26T14:00:00");
+    }
+    @GetMapping("/getIplMatchByDate")
+    public List<IplAllMatchesApiDto> getEntityByDate()throws Exception{
+        return iplAllMatchesApiService.getMatchListByDate("2024-03-26");
     }
 }

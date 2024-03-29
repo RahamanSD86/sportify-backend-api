@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import sportify.backend.api.dto.BaseEntityDTO;
+import util.JavaApiClass.iplAllMatches.TeamInfo;
 
 import java.util.List;
 @Getter
@@ -18,4 +19,7 @@ public class IplAllMatchesApiDto extends BaseEntityDTO {
     private String time;
     private List<String> teamsName;
     private String matchNumber;
+    private List<TeamInfo> teamInfo;
+    private String status;
+    private String matchId;
 }

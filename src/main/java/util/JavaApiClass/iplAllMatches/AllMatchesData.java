@@ -7,7 +7,7 @@ import java.util.List;
 @lombok.Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Data1 {
+public class AllMatchesData {
     private SeriesInfo info;
     private List<Match> matchList;
 }

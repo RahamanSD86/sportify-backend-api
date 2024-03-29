@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class IplAllMatches {
     private String apikey;
-    private Data1 data;
+    private AllMatchesData data;
     private String status;
     private Info info;
 }

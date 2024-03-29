@@ -25,6 +25,9 @@ public class IplAllMatchesApiMapper {
         entity.setTime(dto.getTime());
         entity.setTeamsName(dto.getTeamsName());
         entity.setMatchNumber(dto.getMatchNumber());
+        entity.setTeamInfo(dto.getTeamInfo());
+        entity.setMatchId(dto.getMatchId());
+        entity.setStatus(dto.getStatus());
         return entity;
     }
 
@@ -46,6 +49,9 @@ public class IplAllMatchesApiMapper {
         dto.setTime(entity.getTime());
         dto.setTeamsName(entity.getTeamsName());
         dto.setMatchNumber(entity.getMatchNumber());
+        dto.setTeamInfo(entity.getTeamInfo());
+        dto.setMatchId(entity.getMatchId());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 
@@ -64,6 +70,15 @@ public class IplAllMatchesApiMapper {
         }
         if(newDto.getMatchNumber()!=null){
             currentDto.setMatchNumber(newDto.getMatchNumber());
+        }
+        if(newDto.getTeamInfo()!=null){
+            currentDto.setTeamInfo(newDto.getTeamInfo());
+        }
+        if(newDto.getMatchId()!=null){
+            currentDto.setMatchId(newDto.getMatchId());
+        }
+        if(newDto.getStatus()!=null){
+            currentDto.setStatus(newDto.getStatus());
         }
              return currentDto;
     }

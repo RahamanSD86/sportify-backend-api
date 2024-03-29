@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sportify.backend.api.config.Constants;
+import sportify.backend.api.config.RestEndPoints;
 import sportify.backend.api.domain.matches.IplAllMatchesApi;
 import sportify.backend.api.dto.matches.IplAllMatchesApiDto;
 import sportify.backend.api.mapper.matches.IplAllMatchesApiMapper;
@@ -15,6 +16,7 @@ import sportify.backend.api.service.CricketDataService;
 import util.JavaApiClass.CommonUtil;
 import util.JavaApiClass.iplAllMatches.IplAllMatches;
 import util.JavaApiClass.iplAllMatches.Match;
+import util.JavaApiClass.iplAllMatches.TeamInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,35 +31,37 @@ public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
     IplAllMatchesApiRepository iplAllMatchesApiRepository;
     @Override
     public List<IplAllMatchesApi> createEntity() throws Exception {
-        IplAllMatches iplAllMatches = cricketDataService.fetchDataFromApi();
+        IplAllMatches iplAllMatches = cricketDataService.fetchDataFromApi(IplAllMatches.class,Constants.IPL_ALL_MATCHES_ID, Constants.IPL_SERIES_INFO);
         List<Match> matchList = iplAllMatches.getData().getMatchList();
 
-
-            //Incrementally Generating ID & Retry If Got DuplicateKeyException Due To ID
-            while (true) {
-                try {
-
                     for (Match match : matchList) {
-                        IplAllMatchesApiDto iplAllMatchesApiDto = new IplAllMatchesApiDto();
-                        //generating guid
-                        iplAllMatchesApiDto.setGuid(getNewGenratedDepartmentId());
+                        Optional<IplAllMatchesApiDto> existingMatchOpt = iplAllMatchesApiRepository.findByMatchId(match.getId());
+                        if (!existingMatchOpt.isPresent()) {
+                            // Match does not exist, create a new entity
+                            IplAllMatchesApiDto iplAllMatchesApiDto = new IplAllMatchesApiDto();
+                            iplAllMatchesApiDto.setVenue(match.getVenue());
+                            iplAllMatchesApiDto.setDate(match.getDate());
+                            iplAllMatchesApiDto.setTime(match.getDateTimeGMT());
+                            iplAllMatchesApiDto.setTeamsName(match.getTeams());
+                            iplAllMatchesApiDto.setTeamInfo(match.getTeamInfo());
+                            iplAllMatchesApiDto.setMatchId(match.getId());
+                            iplAllMatchesApiDto.setStatus(match.getStatus());
+                            iplAllMatchesApiDto.setMatchNumber(match.getName().split(",")[1]);
 
-                        iplAllMatchesApiDto.setVenue(match.getVenue());
-                        iplAllMatchesApiDto.setDate(match.getDate());
-                        iplAllMatchesApiDto.setTime(match.getDateTimeGMT());
-                        iplAllMatchesApiDto.setTeamsName(match.getTeams());
-
-                        iplAllMatchesApiRepository.save(IplAllMatchesApiMapper.toEntity(iplAllMatchesApiDto));
+                             iplAllMatchesApiRepository.save(IplAllMatchesApiMapper.toEntity(iplAllMatchesApiDto));
+                        } else {
+                            if(!match.getStatus().equals(existingMatchOpt.get().getStatus())){
+                                IplAllMatchesApiDto iplAllMatchesApiDto=existingMatchOpt.get();
+                                iplAllMatchesApiDto.setStatus(match.getStatus());
+                                iplAllMatchesApiRepository.save(IplAllMatchesApiMapper.toEntity(iplAllMatchesApiDto));
+                            }
+                            continue;
+                        }
                     }
-                  return iplAllMatchesApiRepository.findAll();
-                } catch (Exception ex) {
-                    if (ex instanceof DuplicateKeyException) {
-                        continue;
-                    }
-                    throw new Exception("ERR_ADMIN_0061");
-                }
+                    return iplAllMatchesApiRepository.findAll();
             }
-    }
+
+
     @Override
     public Page<IplAllMatchesApiDto> getAllEntities(Pageable pageable) throws Exception {
         Page<IplAllMatchesApi> entityPage = iplAllMatchesApiRepository.findAll(pageable);
@@ -66,6 +70,19 @@ public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
         } else {
             return new PageImpl<>(new ArrayList<>(), pageable, entityPage.getTotalElements());
         }
+    }
+
+    @Override
+    public List<IplAllMatchesApiDto> getMatchListByDate(String date)throws Exception {
+        List<IplAllMatchesApiDto> list  = iplAllMatchesApiRepository.findByDate(date);
+        if(list!=null) return list;
+        throw new Exception("Ipl List by date Not Found");
+    }
+
+    @Override
+    public IplAllMatchesApiDto getMatchByTime(String time) throws Exception {
+        Optional<IplAllMatchesApiDto> optionalMatch=iplAllMatchesApiRepository.findByTime(time);
+        return optionalMatch.get();
     }
 
     private String getNewGenratedDepartmentId() throws Exception{

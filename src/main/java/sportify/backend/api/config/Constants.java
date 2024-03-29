@@ -1,7 +1,10 @@
 package sportify.backend.api.config;
 
 public class Constants {
-    public static final String IPL_API_KEY="5f37207c-0754-4f00-a598-3fa9e55c6340";
+    public static final String CRICK_API_KEY="5f37207c-0754-4f00-a598-3fa9e55c6340";
+    public static final String IPL_SERIES_INFO="/series_info";
+    public static final String IPL_ALL_MATCHES_ID="76ae85e2-88e5-4e99-83e4-5f352108aebc";
+    public static final String IPL_SCORE_CARD="/match_scorecard";
     public static final String IPL_BASE_URL="https://api.cricapi.com/v1";
     public static final String BLANK_CONSTANT="" ;
     public static final Long NUMBER_CONSTANT_LONG_ONE=1L ;

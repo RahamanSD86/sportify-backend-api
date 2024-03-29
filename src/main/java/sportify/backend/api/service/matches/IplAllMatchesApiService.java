@@ -13,4 +13,7 @@ import java.util.List;
 public interface IplAllMatchesApiService {
  List<IplAllMatchesApi> createEntity() throws Exception;
  Page<IplAllMatchesApiDto> getAllEntities(Pageable pageable)throws  Exception;
+
+ List<IplAllMatchesApiDto> getMatchListByDate(String date)throws Exception;
+ IplAllMatchesApiDto getMatchByTime(String time)throws Exception;
 }
