@@ -1,13 +1,11 @@
 package sportify.backend.api.service.matches;
 
-import com.mongodb.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sportify.backend.api.config.Constants;
-import sportify.backend.api.config.RestEndPoints;
 import sportify.backend.api.domain.matches.IplAllMatchesApi;
 import sportify.backend.api.dto.matches.IplAllMatchesApiDto;
 import sportify.backend.api.mapper.matches.IplAllMatchesApiMapper;
@@ -16,7 +14,6 @@ import sportify.backend.api.service.CricketDataService;
 import util.JavaApiClass.CommonUtil;
 import util.JavaApiClass.iplAllMatches.IplAllMatches;
 import util.JavaApiClass.iplAllMatches.Match;
-import util.JavaApiClass.iplAllMatches.TeamInfo;
 
 import java.util.ArrayList;
 import java.util.List;

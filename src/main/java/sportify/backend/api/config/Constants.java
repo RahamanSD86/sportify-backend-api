@@ -5,6 +5,7 @@ public class Constants {
     public static final String IPL_SERIES_INFO="/series_info";
     public static final String IPL_ALL_MATCHES_ID="76ae85e2-88e5-4e99-83e4-5f352108aebc";
     public static final String IPL_SCORE_CARD="/match_scorecard";
+    public static final String IPL_SCORE_CARD_BALL_BY_BALL="/match_bbb";
     public static final String IPL_BASE_URL="https://api.cricapi.com/v1";
     public static final String BLANK_CONSTANT="" ;
     public static final Long NUMBER_CONSTANT_LONG_ONE=1L ;

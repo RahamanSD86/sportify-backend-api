@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-
 @Getter
 @Setter
 @NoArgsConstructor

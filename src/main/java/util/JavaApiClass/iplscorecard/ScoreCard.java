@@ -15,5 +15,4 @@ public class ScoreCard {
     private Extras extras;
     private Totals totals;
     private String inning;
-
 }
