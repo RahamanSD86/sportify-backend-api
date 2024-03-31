@@ -12,4 +12,3 @@ public class IplAllMatches {
     private String status;
     private Info info;
 }
-
