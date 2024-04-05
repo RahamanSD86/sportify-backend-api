@@ -28,7 +28,7 @@ public class IplScoreCardApi extends BaseEntity {
     private List<Bowling> bowling;
     private List<Catching> catching;
     private Extras extras;
-    private Totals totals;
+//    private Totals totals;
     private String inning;
 
 }

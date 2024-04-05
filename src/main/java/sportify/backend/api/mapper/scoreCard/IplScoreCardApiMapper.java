@@ -31,7 +31,7 @@ public class IplScoreCardApiMapper {
         entity.setBowling(dto.getBowling());
         entity.setCatching(dto.getCatching());
         entity.setExtras(dto.getExtras());
-        entity.setTotals(dto.getTotals());
+//        entity.setTotals(dto.getTotals());
         entity.setInning(dto.getInning());
         entity.setMatchId(dto.getMatchId());
         return entity;
@@ -63,7 +63,7 @@ public class IplScoreCardApiMapper {
         dto.setBowling(entity.getBowling());
         dto.setCatching(entity.getCatching());
         dto.setExtras(entity.getExtras());
-        dto.setTotals(entity.getTotals());
+//        dto.setTotals(entity.getTotals());
         dto.setInning(entity.getInning());
         dto.setMatchId(entity.getMatchId());
         return dto;
@@ -112,9 +112,9 @@ public class IplScoreCardApiMapper {
         if(newDto.getExtras()!=null){
             currentDto.setExtras(newDto.getExtras());
         }
-        if(newDto.getTotals()!=null){
-            currentDto.setExtras(newDto.getExtras());
-        }
+//        if(newDto.getTotals()!=null){
+//            currentDto.setExtras(newDto.getExtras());
+//        }
         if(newDto.getInning()!=null){
             currentDto.setInning(newDto.getInning());
         }

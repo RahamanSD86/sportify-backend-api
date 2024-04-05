@@ -23,4 +23,5 @@ public class IplAllMatchesApi extends BaseEntity {
     private List<TeamInfo> teamInfo;
     private String status;
     private String matchId;
+    private Integer intMatchNumber;
 }
