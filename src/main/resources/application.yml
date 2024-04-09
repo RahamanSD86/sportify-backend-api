@@ -1,8 +1,10 @@
 server:
-  port: 8082
+  port: 8083
 sidpik:
-  environment: PROD
+  environment: LOCAL
 spring:
+  application:
+    name: sportify-backend-api
   data:
     mongodb:
       auto-index-creation: false
