@@ -33,7 +33,7 @@ public class BaseExceptionHandler {
     }
 
     private ResponseStatusDTO getErrorResponseByCode(String errorCode, String exceptionClassName, Exception ex){
-        String errorMessage="Some Unexpected Error Occurred" ;
+        String errorMessage= ex.getMessage() ;
         ResponseStatusDTO responseStatusDTO = new ResponseStatusDTO(CommonUtil.getRandomUUID(16), Constants.DEFAULT_ERROR_MESSAGE_CODE,errorMessage,null) ;
         try{
             return CommonUtil.getStatusObject(errorCode,ex);

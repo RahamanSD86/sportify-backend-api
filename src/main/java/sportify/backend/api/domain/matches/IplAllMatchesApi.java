@@ -18,9 +18,10 @@ public class IplAllMatchesApi extends BaseEntity {
     private String venue;
     private String date;
     private String time;
-    private List<String> teamsName;
+    private String teamsName;
     private String matchNumber;
     private List<TeamInfo> teamInfo;
     private String status;
     private String matchId;
+    private Integer intMatchNumber;
 }

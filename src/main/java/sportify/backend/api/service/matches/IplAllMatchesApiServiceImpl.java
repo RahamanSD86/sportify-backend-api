@@ -1,9 +1,6 @@
 package sportify.backend.api.service.matches;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sportify.backend.api.config.Constants;
 import sportify.backend.api.domain.matches.IplAllMatchesApi;
@@ -15,10 +12,9 @@ import util.JavaApiClass.CommonUtil;
 import util.JavaApiClass.iplAllMatches.IplAllMatches;
 import util.JavaApiClass.iplAllMatches.Match;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
@@ -32,23 +28,35 @@ public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
         List<Match> matchList = iplAllMatches.getData().getMatchList();
 
                     for (Match match : matchList) {
-                        Optional<IplAllMatchesApiDto> existingMatchOpt = iplAllMatchesApiRepository.findByMatchId(match.getId());
+                        Optional<IplAllMatchesApi> existingMatchOpt = iplAllMatchesApiRepository.findByMatchId(match.getId());
                         if (!existingMatchOpt.isPresent()) {
                             // Match does not exist, create a new entity
                             IplAllMatchesApiDto iplAllMatchesApiDto = new IplAllMatchesApiDto();
                             iplAllMatchesApiDto.setVenue(match.getVenue());
                             iplAllMatchesApiDto.setDate(match.getDate());
                             iplAllMatchesApiDto.setTime(match.getDateTimeGMT());
-                            iplAllMatchesApiDto.setTeamsName(match.getTeams());
+                            iplAllMatchesApiDto.setTeamsName(match.getName().split(",")[0].trim());
                             iplAllMatchesApiDto.setTeamInfo(match.getTeamInfo());
                             iplAllMatchesApiDto.setMatchId(match.getId());
                             iplAllMatchesApiDto.setStatus(match.getStatus());
-                            iplAllMatchesApiDto.setMatchNumber(match.getName().split(",")[1]);
+                            iplAllMatchesApiDto.setMatchNumber(match.getName().split(",")[1].trim());
+                            iplAllMatchesApiDto.setIsActive(iplAllMatchesApiDto.getStatus().equals("Match not started") ||
+                                    iplAllMatchesApiDto.getStatus().contains("bowl") ||
+                                    iplAllMatchesApiDto.getStatus().contains("bat") ||
+                                    iplAllMatchesApiDto.getStatus().contains("need")||
+                                    iplAllMatchesApiDto.getStatus().contains("in progress"));
 
+                            String matchNumber=iplAllMatchesApiDto.getMatchNumber();
+                            if(matchNumber.equals("Final") ||matchNumber.equals("Qualifier 1") || matchNumber.equals("Eliminator")|| matchNumber.equals("Qualifier 2")){
+                                iplAllMatchesApiDto.setIntMatchNumber(74);
+                            }else {
+                                iplAllMatchesApiDto.setGuid(matchNumber.replaceAll("[^0-9]", ""));
+                                iplAllMatchesApiDto.setIntMatchNumber(Integer.valueOf(iplAllMatchesApiDto.getGuid()));
+                            }
                              iplAllMatchesApiRepository.save(IplAllMatchesApiMapper.toEntity(iplAllMatchesApiDto));
                         } else {
                             if(!match.getStatus().equals(existingMatchOpt.get().getStatus())){
-                                IplAllMatchesApiDto iplAllMatchesApiDto=existingMatchOpt.get();
+                                IplAllMatchesApiDto iplAllMatchesApiDto=IplAllMatchesApiMapper.toDTO(existingMatchOpt.get());
                                 iplAllMatchesApiDto.setStatus(match.getStatus());
                                 iplAllMatchesApiRepository.save(IplAllMatchesApiMapper.toEntity(iplAllMatchesApiDto));
                             }
@@ -60,26 +68,75 @@ public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
 
 
     @Override
-    public Page<IplAllMatchesApiDto> getAllEntities(Pageable pageable) throws Exception {
-        Page<IplAllMatchesApi> entityPage = iplAllMatchesApiRepository.findAll(pageable);
-        if (entityPage.getContent().size() > 0) {
-            return new PageImpl<>(entityPage.getContent().stream().map(IplAllMatchesApiMapper::toDTO).collect(Collectors.toList()), pageable, entityPage.getTotalElements());
-        } else {
-            return new PageImpl<>(new ArrayList<>(), pageable, entityPage.getTotalElements());
-        }
+    public List<IplAllMatchesApiDto> getAllEntities() throws Exception {
+           List<IplAllMatchesApiDto> iplAllMatchesApiListDto=iplAllMatchesApiRepository.findAllByOrderByIntMatchNumberAsc();
+           if (iplAllMatchesApiListDto.isEmpty()){
+               return Collections.emptyList();
+           }
+           return iplAllMatchesApiListDto;
     }
 
     @Override
     public List<IplAllMatchesApiDto> getMatchListByDate(String date)throws Exception {
         List<IplAllMatchesApiDto> list  = iplAllMatchesApiRepository.findByDate(date);
-        if(list!=null) return list;
+        if(list!=null){
+            return list;
+        }
         throw new Exception("Ipl List by date Not Found");
     }
 
     @Override
-    public IplAllMatchesApiDto getMatchByTime(String time) throws Exception {
-        Optional<IplAllMatchesApiDto> optionalMatch=iplAllMatchesApiRepository.findByTime(time);
-        return optionalMatch.get();
+    public IplAllMatchesApiDto getMatchByTime(String dateTime) throws Exception {
+        Optional<IplAllMatchesApi> optionalMatch=iplAllMatchesApiRepository.findByTime(dateTime);
+        if(optionalMatch.isEmpty()){
+            throw new Exception("Ipl List by dateTime Not Found");
+        }
+        return IplAllMatchesApiMapper.toDTO(optionalMatch.get());
+    }
+
+    @Override
+    public IplAllMatchesApiDto getMatchById(String id) throws Exception {
+        Optional<IplAllMatchesApi> iplAllMatchesApiDtoOptional=iplAllMatchesApiRepository.findByMatchId(id);
+        if(iplAllMatchesApiDtoOptional.isEmpty()){
+            throw new Exception("Ipl Match not found by Id");
+        }
+        return IplAllMatchesApiMapper.toDTO(iplAllMatchesApiDtoOptional.get());
+    }
+
+    @Override
+    public List<IplAllMatchesApi> getEntitiesByStatus(boolean isActive) throws Exception {
+              List<IplAllMatchesApi> iplAllMatchesApiList=iplAllMatchesApiRepository.findByIsActiveOrderByIntMatchNumberAsc(isActive);
+              if(iplAllMatchesApiList.isEmpty()){
+                  return Collections.emptyList();
+              }
+              return iplAllMatchesApiList;
+    }
+
+    @Override
+    public List<IplAllMatchesApi> getEntitiesByVenue(String venue) throws Exception {
+        List<IplAllMatchesApi> iplAllMatchesApiList=iplAllMatchesApiRepository.findByVenueOrderByIntMatchNumberAsc(venue);
+        if(iplAllMatchesApiList.isEmpty()){
+            return Collections.emptyList();
+        }
+        return iplAllMatchesApiList;
+    }
+
+    @Override
+    public List<IplAllMatchesApi> getEntitiesByTeamName(String shortName) {
+        List<IplAllMatchesApi> iplAllMatchesApiList=iplAllMatchesApiRepository.findByTeamInfoShortnameOrderByIntMatchNumberAsc(shortName);
+        if(iplAllMatchesApiList.isEmpty()){
+            return Collections.emptyList();
+        }
+        return iplAllMatchesApiList;
+    }
+
+    @Override
+    public List<IplAllMatchesApi> getEntitiesByTeamNameAndVenue(String shortName, String venue) {
+          List<IplAllMatchesApi> iplAllMatchesApiList=iplAllMatchesApiRepository.findByTeamInfoShortnameAndVenueOrderByIntMatchNumberAsc(shortName,venue);
+          if(iplAllMatchesApiList.isEmpty()){
+              return Collections.emptyList();
+          }
+          return iplAllMatchesApiList;
     }
 
     private String getNewGenratedDepartmentId() throws Exception{
