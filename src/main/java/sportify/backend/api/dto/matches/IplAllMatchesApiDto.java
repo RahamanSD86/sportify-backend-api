@@ -16,7 +16,7 @@ public class IplAllMatchesApiDto extends BaseEntityDTO {
     private String venue;
     private String date;
     private String time;
-    private List<String> teamsName;
+    private String teamsName;
     private String matchNumber;
     private List<TeamInfo> teamInfo;
     private String status;

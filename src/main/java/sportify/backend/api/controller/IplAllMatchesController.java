@@ -38,7 +38,7 @@ public class IplAllMatchesController {
         return iplAllMatchesApiService.getMatchListByDate("2024-03-26");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //Name Team vs team b
     public ResponseEntity<CustomPage<IplAllMatchesApiDto>> getEntityById(@PathVariable(name = "id") String id)throws Exception{
         return new ResponseEntity<>(new CustomPage<>(iplAllMatchesApiService.getMatchById(id), Constants.BLANK_CONSTANT), HttpStatus.OK);
     }

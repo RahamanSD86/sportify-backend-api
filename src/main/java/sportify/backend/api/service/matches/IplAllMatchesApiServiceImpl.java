@@ -1,9 +1,6 @@
 package sportify.backend.api.service.matches;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sportify.backend.api.config.Constants;
 import sportify.backend.api.domain.matches.IplAllMatchesApi;
@@ -15,11 +12,9 @@ import util.JavaApiClass.CommonUtil;
 import util.JavaApiClass.iplAllMatches.IplAllMatches;
 import util.JavaApiClass.iplAllMatches.Match;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
@@ -40,12 +35,16 @@ public class IplAllMatchesApiServiceImpl implements IplAllMatchesApiService{
                             iplAllMatchesApiDto.setVenue(match.getVenue());
                             iplAllMatchesApiDto.setDate(match.getDate());
                             iplAllMatchesApiDto.setTime(match.getDateTimeGMT());
-                            iplAllMatchesApiDto.setTeamsName(match.getTeams());
+                            iplAllMatchesApiDto.setTeamsName(match.getName().split(",")[0].trim());
                             iplAllMatchesApiDto.setTeamInfo(match.getTeamInfo());
                             iplAllMatchesApiDto.setMatchId(match.getId());
                             iplAllMatchesApiDto.setStatus(match.getStatus());
                             iplAllMatchesApiDto.setMatchNumber(match.getName().split(",")[1].trim());
-                            iplAllMatchesApiDto.setIsActive(iplAllMatchesApiDto.getStatus().equals("Match not started"));
+                            iplAllMatchesApiDto.setIsActive(iplAllMatchesApiDto.getStatus().equals("Match not started") ||
+                                    iplAllMatchesApiDto.getStatus().contains("bowl") ||
+                                    iplAllMatchesApiDto.getStatus().contains("bat") ||
+                                    iplAllMatchesApiDto.getStatus().contains("need")||
+                                    iplAllMatchesApiDto.getStatus().contains("in progress"));
 
                             String matchNumber=iplAllMatchesApiDto.getMatchNumber();
                             if(matchNumber.equals("Final") ||matchNumber.equals("Qualifier 1") || matchNumber.equals("Eliminator")|| matchNumber.equals("Qualifier 2")){
