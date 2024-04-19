@@ -1,4 +1,4 @@
-package util.JavaApiClass.iplAllMatches;
+package sportify.backend.api.util.JavaApiClass.iplAllMatches;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

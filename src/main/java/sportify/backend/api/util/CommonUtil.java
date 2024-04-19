@@ -1,4 +1,4 @@
-package util.JavaApiClass;
+package sportify.backend.api.util;
 
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

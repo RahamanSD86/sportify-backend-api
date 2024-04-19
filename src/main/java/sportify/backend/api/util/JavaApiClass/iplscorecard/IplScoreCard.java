@@ -1,4 +1,4 @@
-package util.JavaApiClass.iplscorecard;
+package sportify.backend.api.util.JavaApiClass.iplscorecard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

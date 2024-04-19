@@ -1,5 +1,6 @@
-package util.JavaApiClass.iplAllMatches;
+package sportify.backend.api.util.JavaApiClass.iplscorecard;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -7,12 +8,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Info {
+    @JsonProperty("hitsToday")
     private int hitsToday;
+
+    @JsonProperty("hitsUsed")
     private int hitsUsed;
+
+    @JsonProperty("hitsLimit")
     private int hitsLimit;
+
     private int credits;
     private int server;
+
+    @JsonProperty("queryTime")
     private double queryTime;
+
     private int s;
     private int cache;
 }

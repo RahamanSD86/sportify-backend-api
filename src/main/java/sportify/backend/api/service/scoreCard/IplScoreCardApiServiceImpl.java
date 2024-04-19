@@ -13,7 +13,9 @@ import sportify.backend.api.mapper.scoreCard.IplScoreCardApiMapper;
 import sportify.backend.api.repository.scoreCard.IplScoreCardApiRepository;
 import sportify.backend.api.service.CricketDataService;
 import sportify.backend.api.service.matches.IplAllMatchesApiService;
-import util.JavaApiClass.iplscorecard.*;
+import sportify.backend.api.util.JavaApiClass.iplscorecard.IplScoreCard;
+import sportify.backend.api.util.JavaApiClass.iplscorecard.Score;
+import sportify.backend.api.util.JavaApiClass.iplscorecard.ScoreCard;
 
 import java.util.*;
 import java.util.stream.Collectors;

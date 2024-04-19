@@ -1,4 +1,4 @@
-package util.JavaApiClass.iplAllMatches;
+package sportify.backend.api.util.JavaApiClass.iplscorecard;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 @lombok.Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamInfo {
+public class Bowler {
+    private String id;
     private String name;
-    private String shortname;
-    private String img;
 }

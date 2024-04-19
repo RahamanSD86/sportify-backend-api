@@ -16,7 +16,8 @@ public class CricketDataService {
             T response = webClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path(path)
-                            .queryParam("apikey", Constants.CRICK_API_KEY)
+//                            .queryParam("apikey", Constants.CRICK_API_KEY)
+                            .queryParam("apikey", "6ada99af-25b1-44cf-80c3-3d850428bcd0")
                             .queryParam("offset", "0")
                             .queryParam("id", id)
                             .build())

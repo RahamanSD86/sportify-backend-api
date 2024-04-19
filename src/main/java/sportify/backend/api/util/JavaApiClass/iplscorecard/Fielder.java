@@ -1,4 +1,4 @@
-package util.JavaApiClass.iplscorecard;
+package sportify.backend.api.util.JavaApiClass.iplscorecard;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @lombok.Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BatsMan {
+public class Fielder {
     private String id;
     private String name;
 }
