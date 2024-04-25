@@ -17,7 +17,7 @@ public class CricketDataService {
                     .uri(uriBuilder -> uriBuilder
                             .path(path)
 //                            .queryParam("apikey", Constants.CRICK_API_KEY)
-                            .queryParam("apikey", "6ada99af-25b1-44cf-80c3-3d850428bcd0")
+                            .queryParam("apikey", "da4b332f-a16a-47ed-8aaf-a082a893f498")
                             .queryParam("offset", "0")
                             .queryParam("id", id)
                             .build())
@@ -27,7 +27,6 @@ public class CricketDataService {
 
             System.out.println(response);
             return response;
-
         }
     }
 

@@ -18,10 +18,10 @@ public class IplPointsTable extends BaseEntity {
     String P;
     String W;
     String L;
-    String NR;
-    String NRR;
+    Integer NR;
+    Float NRR;
     String FOR;
     String AGAINST;
-    String PTS;
+    Integer PTS;
 
 }

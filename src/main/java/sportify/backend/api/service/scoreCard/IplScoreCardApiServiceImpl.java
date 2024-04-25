@@ -32,7 +32,6 @@ public class IplScoreCardApiServiceImpl implements IplScoreCardApiService {
     @Override
     public IplScoreCardApiDto createEntity(String time) throws Exception {
         IplAllMatchesApiDto match = iplAllMatchesApiService.getMatchByTime(time);
-
         if (match == null) {
             throw new Exception("Match not found");
         }
