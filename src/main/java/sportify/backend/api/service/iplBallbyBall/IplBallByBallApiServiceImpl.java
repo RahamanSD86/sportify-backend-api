@@ -94,6 +94,17 @@ public class IplBallByBallApiServiceImpl implements IplBallByBallApiService{
             iplAllMatchesApiDto = iplAllMatchesApiDtoList.get(0);
             count++;
         }
+
+        LocalDateTime targetDateTime = LocalDateTime.parse(iplAllMatchesApiDto.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime nowWithGMT = LocalDateTime.now(ZoneOffset.UTC); // Get current time in GMT
+
+        // Check if within 3 minutes of target time (assuming code already inside scheduledMethod)
+        if (nowWithGMT.isAfter(targetDateTime.minusMinutes(2)) && nowWithGMT.isBefore(targetDateTime.plusMinutes(2))) {
+            // Call your specific code here
+            iplAllMatchesApiService.createEntity();
+            // Your code to be executed within the 3-minute window
+        }
+
             if (iplAllMatchesApiDto.getIsActive() && !iplAllMatchesApiDto.getStatus().equals("Match not started")) {
                 createEntityById(iplAllMatchesApiDtoList.get(0).getMatchId());
         }
